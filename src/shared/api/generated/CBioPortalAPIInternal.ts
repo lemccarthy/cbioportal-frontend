@@ -144,11 +144,13 @@ export type CopyNumberCountByGene = {
 
         'entrezGeneId': number
 
-        'frequency': number
-
         'hugoGeneSymbol': string
 
+        'matchingGenePanels': Array < GenePanel >
+
         'numberOfAlteredCases': number
+
+        'numberOfSamplesProfiled': number
 
         'qValue': number
 
@@ -233,6 +235,20 @@ export type ExpressionEnrichment = {
         'standardDeviationInAlteredGroup': number
 
         'standardDeviationInUnalteredGroup': number
+
+};
+export type GenePanel = {
+    'description': string
+
+        'genePanelId': string
+
+        'genes': Array < GenePanelToGene >
+
+};
+export type GenePanelToGene = {
+    'entrezGeneId': number
+
+        'hugoGeneSymbol': string
 
 };
 export type Geneset = {
@@ -426,11 +442,13 @@ export type MutSig = {
 export type MutationCountByGene = {
     'entrezGeneId': number
 
-        'frequency': number
-
         'hugoGeneSymbol': string
 
+        'matchingGenePanels': Array < GenePanel >
+
         'numberOfAlteredCases': number
+
+        'numberOfSamplesProfiled': number
 
         'qValue': number
 
@@ -555,7 +573,7 @@ export type VariantCountIdentifier = {
  */
 export default class CBioPortalAPIInternal {
 
-    private domain: string = "";
+    private domain: string = "http://localhost:8080/cbioportal/api";
     private errorHandlers: CallbackHandler[] = [];
 
     constructor(domain ? : string) {
