@@ -1,25 +1,31 @@
-import * as React from 'react';
-import {observer} from "mobx-react";
-import {StudyViewPageStore} from 'pages/studyView/StudyViewPageStore';
+import * as React from "react";
+import { observer } from "mobx-react";
+import { StudyViewPageStore } from "pages/studyView/StudyViewPageStore";
 import RightPanel from "./rightPanel/RightPanel";
 import StudySummary from "./studySummary/StudySummary";
 import UserSelections from "../UserSelections";
-import * as _ from 'lodash';
-
+import { keys, values } from "lodash";
 
 export interface IStudyPageHeaderProps {
-    store: StudyViewPageStore,
+    userEmail: string | undefined;
+    store: StudyViewPageStore;
 }
 
 @observer
 export default class StudyPageHeader extends React.Component<IStudyPageHeaderProps, {}> {
     render() {
         return (
-            <div style={{display: 'flex', flexDirection:'column',margin: '0 20px 5px 20px'}} data-test="study-view-header">
-                {_.keys(this.props.store.pageStatusMessages).length > 0 && (
+            <div
+                style={{ display: "flex", flexDirection: "column", margin: "0 20px 5px 20px" }}
+                data-test="study-view-header"
+            >
+                {keys(this.props.store.pageStatusMessages).length > 0 && (
                     <div>
-                        {_.values(this.props.store.pageStatusMessages).map(statusMessage => <div
-                            className={`alert alert-${statusMessage.status}`}>{statusMessage.message}</div>)}
+                        {values(this.props.store.pageStatusMessages).map(statusMessage => (
+                            <div className={`alert alert-${statusMessage.status}`}>
+                                {statusMessage.message}
+                            </div>
+                        ))}
                     </div>
                 )}
                 <div style={{display: 'flex', marginBottom:10}}>
@@ -39,8 +45,12 @@ export default class StudyPageHeader extends React.Component<IStudyPageHeaderPro
                     customChartsFilter={this.props.store.customChartFilterSet.toJS()}
                     getSelectedGene={this.props.store.getKnownHugoGeneSymbolByEntrezGeneId}
                     attributesMetaSet={this.props.store.chartMetaSet}
-                    updateClinicalDataEqualityFilter={this.props.store.updateClinicalDataEqualityFilters}
-                    updateClinicalDataIntervalFilter={this.props.store.updateClinicalDataIntervalFiltersByValues}
+                    updateClinicalDataEqualityFilter={
+                        this.props.store.updateClinicalDataEqualityFilters
+                    }
+                    updateClinicalDataIntervalFilter={
+                        this.props.store.updateClinicalDataIntervalFiltersByValues
+                    }
                     updateCustomChartFilter={this.props.store.setCustomChartFilters}
                     removeGeneFilter={this.props.store.removeGeneFilter}
                     removeCNAGeneFilter={this.props.store.removeCNAGeneFilters}
@@ -50,10 +60,12 @@ export default class StudyPageHeader extends React.Component<IStudyPageHeaderPro
                     removeCustomSelectionFilter={this.props.store.removeCustomSelectFilter}
                     removeWithMutationDataFilter={this.props.store.removeWithMutationDataFilter}
                     removeWithCNADataFilter={this.props.store.removeWithCNADataFilter}
-                    clearChartSampleIdentifierFilter={this.props.store.clearChartSampleIdentifierFilter}
+                    clearChartSampleIdentifierFilter={
+                        this.props.store.clearChartSampleIdentifierFilter
+                    }
                     clearAllFilters={this.props.store.clearAllFilters}
                 />
             </div>
-        )
+        );
     }
 }

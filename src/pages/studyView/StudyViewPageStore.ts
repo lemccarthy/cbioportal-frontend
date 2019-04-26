@@ -90,6 +90,7 @@ import {getMDAndersonHeatmapStudyMetaUrl, getStudyDownloadListUrl} from "../../s
 import onMobxPromise from "../../shared/lib/onMobxPromise";
 import request from 'superagent';
 import {trackStudyViewFilterEvent} from "../../shared/lib/tracking";
+import queryStudyAnalytics, { IAnalyticsResponse, IQueryResponse } from './queryStudyAnalytics';
 
 export enum ClinicalDataTypeEnum {
     SAMPLE = 'SAMPLE',
@@ -2928,6 +2929,10 @@ export class StudyViewPageStore {
                 clinicalAttributeCountFilter
             });
         }
+    });
+
+    readonly studyGoogleAnalytics = remoteData({
+        invoke: async () => await queryStudyAnalytics(this.studyIds, process.env.API_URL || ""),
     });
 
     readonly clinicalDataWithCount = remoteData<ClinicalDataCountSet>({
