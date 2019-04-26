@@ -109,7 +109,8 @@ import {sleepUntil} from "../../shared/lib/TimeUtils";
 import ListIndexedMap from "../../shared/lib/ListIndexedMap";
 import ComplexKeyMap from "../../shared/lib/complexKeyDataStructures/ComplexKeyMap";
 import {toFixedWithoutTrailingZeros} from "../../shared/lib/FormatUtils";
-import jStat from 'jStat'
+import jStat from 'jStat';
+import queryStudyAnalytics, { IAnalyticsResponse, IQueryResponse } from './queryStudyAnalytics';
 
 export enum ClinicalDataTypeEnum {
     SAMPLE = 'SAMPLE',
@@ -3314,6 +3315,10 @@ export class StudyViewPageStore {
                 clinicalAttributeCountFilter
             });
         }
+    });
+
+    readonly studyGoogleAnalytics = remoteData({
+        invoke: async () => await queryStudyAnalytics(this.studyIds, process.env.API_URL || ""),
     });
 
     readonly clinicalDataWithCount = remoteData<ClinicalDataCountSet>({
