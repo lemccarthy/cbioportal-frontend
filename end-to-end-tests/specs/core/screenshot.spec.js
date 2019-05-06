@@ -1,11 +1,11 @@
 var assert = require('assert');
 var expect = require('chai').expect;
-var waitForOncoprint = require('./specUtils').waitForOncoprint;
-var setOncoprintMutationsMenuOpen = require('./specUtils').setOncoprintMutationsMenuOpen;
-var goToUrlAndSetLocalStorage = require('./specUtils').goToUrlAndSetLocalStorage;
-var waitForNetworkQuiet = require('./specUtils').waitForNetworkQuiet;
-var sessionServiceIsEnabled = require('./specUtils').sessionServiceIsEnabled;
-var assertScreenShotMatch = require('../lib/testUtils').assertScreenShotMatch;
+var waitForOncoprint = require('./../specUtils').waitForOncoprint;
+var setOncoprintMutationsMenuOpen = require('./../specUtils').setOncoprintMutationsMenuOpen;
+var goToUrlAndSetLocalStorage = require('./../specUtils').goToUrlAndSetLocalStorage;
+var waitForNetworkQuiet = require('./../specUtils').waitForNetworkQuiet;
+var sessionServiceIsEnabled = require('./../specUtils').sessionServiceIsEnabled;
+var assertScreenShotMatch = require('../../lib/testUtils').assertScreenShotMatch;
 
 const CBIOPORTAL_URL = process.env.CBIOPORTAL_URL.replace(/\/$/, "");
 
@@ -50,7 +50,7 @@ function runResultsTestSuite(prefix){
         waitForAndCheckPlotsTab();
     });
 
-    it(`${prefix} mutation tab`, function(){
+    it.skip(`${prefix} mutation tab`, function(){
         browser.click("a.tabAnchor_mutations");
         browser.waitForVisible('.borderedChart svg',20000);
         var res = browser.checkElement('[data-test="mutationsTabDiv"]',{hide:['.qtip', '[data-test=view3DStructure]', '[data-test=GeneSummaryUniProt]'], viewportChangePause:4000}); // hide these things because the timing of data loading makes this test so flaky
@@ -124,7 +124,7 @@ describe('result page screenshot tests', function(){
 describe('expression tab', function() {
     it("expression tab with complex oql", ()=>{
         goToUrlAndSetLocalStorage(`${CBIOPORTAL_URL}/results/expression?cancer_study_id=all&Z_SCORE_THRESHOLD=2&RPPA_SCORE_THRESHOLD=2&data_priority=0&case_set_id=all&gene_list=TP53%3AMUT%3B&geneset_list=%20&tab_index=tab_visualize&Action=Submit&cancer_study_list=acc_tcga%2Cchol_tcga%2Cesca_tcga&show_samples=false`);
-        browser.waitForExist(".borderedChart svg", 10000);
+        browser.waitForExist(".borderedChart svg", 60000);
         var res = browser.checkElement('[data-test="expressionTabDiv"]');
         assertScreenShotMatch(res);
     });
@@ -144,7 +144,7 @@ describe("download tab screenshot tests", function() {
     });
 });
 
-describe('patient view page screenshot test', function(){
+describe.skip('patient view page screenshot test', function(){
     before(function(){
         var url = `${CBIOPORTAL_URL}/patient?studyId=lgg_ucsf_2014&caseId=P04`;
         goToUrlAndSetLocalStorage(url);
