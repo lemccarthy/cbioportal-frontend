@@ -37,7 +37,7 @@ export default class QuerySummary extends React.Component<{ routingStore:Extende
     @observable _queryFormVisible: boolean = false;
 
     @computed get queryFormVisible(){
-        return this._queryFormVisible || this.props.store.genesInvalid;
+        return this._queryFormVisible || this.isQueryOrGeneInvalid;
     }
 
     readonly singleStudyUI = MakeMobxView({
@@ -149,6 +149,10 @@ export default class QuerySummary extends React.Component<{ routingStore:Extende
         </div>
     }
 
+    @computed get isQueryOrGeneInvalid() {
+        return this.props.store.genesInvalid || this.props.store.isQueryInvalid;
+    }
+
     render() {
 
         if (!this.cohortAndGeneSummary.isError && !this.alterationSummary.isError) {
@@ -199,7 +203,7 @@ export default class QuerySummary extends React.Component<{ routingStore:Extende
                     }
                 </div>
             )
-        } else if (this.props.store.genesInvalid) {
+        } else if (this.isQueryOrGeneInvalid) {
             return this.queryForm;
         } else {
             return null;
